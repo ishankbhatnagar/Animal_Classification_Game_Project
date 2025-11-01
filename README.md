@@ -1,4 +1,3 @@
-<img width="1892" height="913" alt="image" src="https://github.com/user-attachments/assets/7608a8d9-5ffb-4e5d-b3fa-64fd41932af0" />
 # 🐾 Animal Classification Game
 
 ##  Overview
