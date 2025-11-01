@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Animal Identified!</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+            min-height: 100vh;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            margin-top: 40px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            color: #e67e22;
+            font-weight: bold;
+        }
+
+        img {
+            border-radius: 15px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            max-width: 80%;
+            height: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+        }
+
+        .badge-container {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 10px;
+            display: inline-block;
+            font-size: 18px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/logout" class="btn btn-danger logout-btn">Logout</a>
+
+    {% if is_new %}
+    <div style="background-color: #c7f9cc; padding: 15px; border-radius: 10px; text-align:center; font-size:18px;">
+        🎉 New discovery! You’ve reached <b>Level {{ level }}</b>!
+    </div>
+    {% else %}
+    <div style="background-color: #f8f9fa; padding: 10px; border-radius: 8px; text-align:center;">
+        Current Level: <b>{{ level }}</b>
+    </div>
+    {% endif %}
+
+    {% if badge %}
+    <div class="badge-container">
+        🏅 <strong>New Badge Unlocked!</strong> — {{ badge }}
+    </div>
+    {% endif %}
+
+    <div class="container">
+        {% if is_new %}
+        <h1>🎉 Congratulations, Explorer!</h1>
+        <p>You just discovered a new animal:</p>
+        {% else %}
+        <h1>🦁 Welcome back, Explorer!</h1>
+        <p>You’ve already discovered this animal before:</p>
+        {% endif %}
+
+        <h2>{{ prediction }}</h2>
+
+        <img src="{{ url_for('static', filename=image_path) }}" alt="Animal Image">
+
+        <p>Confidence: <strong>{{ confidence }}</strong></p>
+
+        <div class="alert alert-info mt-4" style="font-size: 1.1em;">
+            🧠 {{ fun_fact }}
+        </div>
+
+        {% if is_new %}
+        <p>Keep learning! Each new animal you discover helps you level up 🦁</p>
+        {% else %}
+        <p>Keep exploring to find new animals and level up further! 🐾</p>
+        {% endif %}
+
+        <a href="/" class="btn btn-success mt-3">🔍 Discover Another</a>
+    </div>
+
+    <script>
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 1;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        window.onload = function () {
+            const fact = "{{ fun_fact }}";
+            speak(fact);
+        };
+    </script>
+</body>
+
+</html>
